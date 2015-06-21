@@ -24,7 +24,7 @@ func main() {
     // Create logger
     writer := log.NewConcurrentWriter(os.Stdout)
     logger := log.NewLogger(writer, "identicon")
-    logger.SetLevel(log.LevelCritical)
+    // logger.SetLevel(log.LevelCritical)
 
     // Start web server
     router := web.NewServer(web.Options{
