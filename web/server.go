@@ -1,6 +1,7 @@
 package web
 
 import (
+    "crypto/rand"
     "encoding/base64"
     "runtime/debug"
     "time"
@@ -31,8 +32,9 @@ func NewServer(opts Options) *gin.Engine {
     // create router
     router := gin.New()
     router.Use(gin.Recovery(), Logger(logger))
-    router.GET("/icon/:name", BasicImageRoute(logger))
+    router.GET("/icon/:name", BasicImageRoute(logger, cache))
     router.GET("/encoded/:name", EncodedImageRoute(logger, cache))
+    router.GET("/random", RandomImageRoute(logger))
     return router
 }
 
@@ -58,17 +60,33 @@ func Logger(l log.Logger) gin.HandlerFunc {
     }
 }
 
-func BasicImageRoute(l log.Logger) gin.HandlerFunc {
+func BasicImageRoute(l log.Logger, cache *freecache.Cache) gin.HandlerFunc {
     return func(c *gin.Context) {
-        icon := identicon.New7x7(Key)
         name := c.Param("name")
 
         l.Info("Creating identicon", "name", name)
 
         data := []byte(name)
-        pngdata := icon.Render(data)
+        if len(data) > 255 {
+            c.String(400, "Name too long")
+            return
+        }
 
-        c.Writer.Write(pngdata)
+        val, err := cache.Get(data)
+        if err != nil || len(val) == 0 {
+            icon := identicon.New7x7(Key)
+
+            l.Info("Encoding identicon", "name", name)
+            pngdata := icon.Render(data)
+
+            l.Info("Loading cache")
+            if err = cache.Set(data, pngdata, 0); err != nil {
+                l.Info("Failed to load cache")
+            }
+            val = pngdata
+        }
+
+        c.Writer.Write(val)
         c.Header("Content-Type", "image/png")
     }
 }
@@ -76,7 +94,6 @@ func BasicImageRoute(l log.Logger) gin.HandlerFunc {
 func EncodedImageRoute(l log.Logger, cache *freecache.Cache) gin.HandlerFunc {
     return func(c *gin.Context) {
 
-        icon := identicon.New7x7(Key)
         name := c.Param("name")
         data := []byte(name)
         if len(data) > 255 {
@@ -86,18 +103,34 @@ func EncodedImageRoute(l log.Logger, cache *freecache.Cache) gin.HandlerFunc {
 
         val, err := cache.Get(data)
         if err != nil || len(val) == 0 {
+
+            icon := identicon.New7x7(Key)
             l.Info("Encoding identicon", "name", name)
             pngdata := icon.Render(data)
-            encoding := base64.StdEncoding.EncodeToString(pngdata)
-            val = []byte("data:image/png;base64," + encoding)
 
             l.Info("Loading cache")
-            if err = cache.Set(data, val, 0); err != nil {
+            if err = cache.Set(data, pngdata, 0); err != nil {
                 l.Info("Failed to load cache")
             }
+
+            encoding := base64.StdEncoding.EncodeToString(pngdata)
+            val = []byte("data:image/png;base64," + encoding)
         }
 
         c.Writer.Write(val)
         c.Header("Content-Type", "text/plain")
+    }
+}
+
+func RandomImageRoute(l log.Logger) gin.HandlerFunc {
+    return func(c *gin.Context) {
+
+        data := make([]byte, 16)
+        rand.Read(data)
+
+        icon := identicon.New7x7(Key)
+        pngdata := icon.Render(data)
+        c.Writer.Write(pngdata)
+        c.Header("Content-Type", "image/png")
     }
 }
