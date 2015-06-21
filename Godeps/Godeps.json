@@ -1,0 +1,77 @@
+{
+	"ImportPath": "github.com/subsilent/identicon",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "bitbucket.org/subsilentio/common/middleware",
+			"Rev": "130ccc994d821ee52d43c4778c294e3efab6a108"
+		},
+		{
+			"ImportPath": "github.com/coocood/freecache",
+			"Rev": "28070c015675a739b0ed7b5099d4f55064b57ce7"
+		},
+		{
+			"ImportPath": "github.com/dchest/siphash",
+			"Comment": "v1.0.0-15-g8f89985",
+			"Rev": "8f8998549bb000140299d732e93d79c2d5ddffa7"
+		},
+		{
+			"ImportPath": "github.com/facebookgo/clock",
+			"Rev": "600d898af40aa09a7a93ecb9265d87b0504b6f03"
+		},
+		{
+			"ImportPath": "github.com/facebookgo/grace/gracehttp",
+			"Rev": "1b0609c25d1f0d6aefdd5404eaa710a16daca9d6"
+		},
+		{
+			"ImportPath": "github.com/facebookgo/grace/gracenet",
+			"Rev": "1b0609c25d1f0d6aefdd5404eaa710a16daca9d6"
+		},
+		{
+			"ImportPath": "github.com/facebookgo/httpdown",
+			"Rev": "1c143bb4362a4f297f9cabd74bf0d05ee2b4f5dc"
+		},
+		{
+			"ImportPath": "github.com/facebookgo/stats",
+			"Rev": "a8126df93b2406675168d2930b6d3db46ffb805c"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Comment": "v1.0rc1-88-gdded099",
+			"Rev": "dded099609a82b86ca7ac510f3489ff9088992ca"
+		},
+		{
+			"ImportPath": "github.com/manucorporat/sse",
+			"Rev": "c142f0f1baea5cef7f98a8a6c222f6134368c1f5"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-colorable",
+			"Rev": "d67e0b7d1797975196499f79bcc322c08b9f218b"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-isatty",
+			"Rev": "ae0b1f8f8004be68d791a576e3d8e7648ab41449"
+		},
+		{
+			"ImportPath": "github.com/mgutz/ansi",
+			"Rev": "22ddafb24adc4786c83841aa3021349818c898e4"
+		},
+		{
+			"ImportPath": "github.com/mgutz/logxi/v1",
+			"Rev": "002f5bf05304c9df2910ef0a5f9e5ec6bbc7c8c3"
+		},
+		{
+			"ImportPath": "github.com/subsilent/go-identicon",
+			"Rev": "aae794175cdc86fb986b3c3ab24c2dc13c5808d7"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "dfe268fd2bb5c793f4c083803609fce9806c6f80"
+		},
+		{
+			"ImportPath": "gopkg.in/bluesuncorp/validator.v5",
+			"Comment": "v5.5.1",
+			"Rev": "1d61bf31487322f9bffa4d9f1eda4a53175b58dd"
+		}
+	]
+}
